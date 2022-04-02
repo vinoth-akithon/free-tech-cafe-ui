@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Tech Cafe</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  </head>
+  <body>
+    <div class="registration-box">
+      <div class="form-title">Registration Form</div>
+      <form action="" class="form" id="registerForm" novalidate>
+        <div class="input-name">
+          <label for="name">Name :</label><br />
+          <input
+            name="name"
+            id="name"
+            type="text"
+            placeholder="vinoth kumar"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class="input-email">
+          <label for="email">Email :</label><br />
+          <input
+            name="email"
+            id="email"
+            type="email"
+            placeholder="xxx@gmail.com"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class="input-password">
+          <label for="password">Password :</label><br />
+          <input
+            name="password"
+            id="password"
+            type="password"
+            placeholder="Success@2022"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <hr />
+        <div class="submit">
+          <input id="form-submit" type="submit" value="Register" />
+        </div>
+      </form>
+      <div class="redirect-link">
+        <p>Already Registered?<a href="/login"> Login Here</a></p>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("load", function () {
+        function sendData() {
+          const XHR = new XMLHttpRequest();
+
+          // Bind the FormData object and the form element
+          const FD = new FormData(form);
+
+          // Define what happens on successful data submission
+          XHR.addEventListener("load", function (event) {
+            alert(event.target.responseText);
+          });
+
+          // Define what happens in case of error
+          XHR.addEventListener("error", function (event) {
+            alert("Oops! Something went wrong.");
+          });
+
+          // Set up our request
+          XHR.open("POST", "http://127.0.0.1:5000/register");
+
+          // The data sent is what the user provided in the form
+          XHR.send(FD);
+        }
+
+        // Access the form element...
+        const form = document.getElementById("registerForm");
+
+        // ...and take over its submit event.
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          sendData();
+        });
+      });
+    </script>
+  </body>
+</html>

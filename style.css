@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box ;
+}
+html{
+    height: 100%;
+}
+body {
+    background-image: linear-gradient(to bottom right, #33475b, #0033CC, #FF77CC, rgb(255, 122, 89));
+    background-repeat: no-repeat;
+    
+}
+
+
+.registration-box {
+    border:2px solid black;
+    border-radius: 5px;
+    margin:auto;
+    width:300px; 
+    height:400px;
+    background-color: aliceblue;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
+}
+
+.form-title{
+    text-align: center;
+    background-color: #FF77CC;
+    padding: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+}
+
+.form {
+    margin: auto;
+    width:80%;
+    height: 75%;
+}
+
+.redirect-link {
+    height: 10%;
+    color: red;
+    font-family: 'Franklin Gothic Medium',
+        'Arial Narrow',
+        Arial,
+        sans-serif;
+}
+input {
+    margin-top: 10px;
+    width:100%;
+    height:40px;
+    border-radius: 5px;
+}
+
+input:focus{
+    background-color:moccasin;
+    color:rgb(4, 3, 3);
+    font-size: 20px;
+}
+
+.input-name,.input-email, .input-password{
+    margin-top:10px
+}
+.submit {
+    margin-top: 0px
+}
+hr{
+    margin-top:20px;
+    margin-bottom:0
+}
+.submit input{
+    margin-top: 10px;
+    width:100%;
+    height:40%;
+    font-size: large;
+    border-radius: 100px;
+    background-color: #1347e3;
+    color:antiquewhite;
+    cursor: pointer;
+    border-color: #FF77CC;
+    border-width: 2px;
+}
+.submit input:active{
+    background-color:#FF77CC;
+    color:black
+}
+
+.redirect-link {
+    width: 80%;
+    margin: auto;
+    font-size: 12px;
+    text-align: center;
+}
+
+.redirect-link p{
+    margin-top:0
+}
+.redirect-link a {
+    text-decoration-line: none;
+    font-size: 15px;
+}
