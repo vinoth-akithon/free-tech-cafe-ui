@@ -92,7 +92,11 @@
           };
 
           // Set up our request
-          http.open("POST", "http://127.0.0.1:5000/register", true);
+          http.open(
+            "POST",
+            "http://veeramvinoth.pythonanywhere.com/register",
+            true
+          );
 
           // The data sent is what the user provided in the form
           http.send(formData);
