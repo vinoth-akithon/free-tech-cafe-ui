@@ -7,11 +7,23 @@
     <title>Free Tech Cafe</title>
     <link rel="stylesheet" href="style.css" />
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <style>
+      .alert {
+        padding: 20px;
+        background-color: #f44336;
+        color: white;
+        opacity: 1;
+        transition: opacity 0.6s;
+        margin-bottom: 15px;
+        display: none;
+      }
+    </style>
   </head>
   <body>
+    <div class="alert" id="noti"></div>
     <div class="registration-box">
       <div class="form-title">Registration Form</div>
-      <form action="" class="form" id="registerForm" novalidate>
+      <form class="form" id="registerForm">
         <div class="input-name">
           <label for="name">Name :</label><br />
           <input
@@ -58,26 +70,32 @@
     <script>
       window.addEventListener("load", function () {
         function sendData() {
-          const XHR = new XMLHttpRequest();
+          const http = new XMLHttpRequest();
 
           // Bind the FormData object and the form element
-          const FD = new FormData(form);
+          const formData = new FormData(form);
 
           // Define what happens on successful data submission
-          XHR.addEventListener("load", function (event) {
-            alert(event.target.responseText);
-          });
-
-          // Define what happens in case of error
-          XHR.addEventListener("error", function (event) {
-            alert("Oops! Something went wrong.");
-          });
+          http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              // Typical action to be performed when the document is ready:
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              localStorage.setItem("accessToken", r["access_token"]);
+              localStorage.setItem("refreshToken", r["refresh_token"]);
+              window.location.replace("home.html");
+            } else if (this.readyState == 4 && this.status == 400) {
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              alert(r["message"]);
+            }
+          };
 
           // Set up our request
-          XHR.open("POST", "http://127.0.0.1:5000/register");
+          http.open("POST", "http://127.0.0.1:5000/register", true);
 
           // The data sent is what the user provided in the form
-          XHR.send(FD);
+          http.send(formData);
         }
 
         // Access the form element...

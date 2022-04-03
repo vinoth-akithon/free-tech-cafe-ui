@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Tech Cafe</title>
+    <link rel="stylesheet" href="home_page.css" />
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  </head>
+  <body>
+    <div class="header">
+      <p>Mini Project</p>
+      <!-- <div> -->
+      <a id="image" title="logout" href="#"
+        ><img src="logout.png" alt="logout"
+      /></a>
+      <!-- </div> -->
+    </div>
+    <div class="main-div">
+      <h1>
+        Hello
+        <span id="span"></span>
+        welcomes you to review this project
+      </h1>
+    </div>
+
+    <script>
+      window.addEventListener("load", function () {
+        function sendData() {
+          var http = new XMLHttpRequest();
+
+          var accessToken = localStorage.getItem("accessToken");
+
+          // Define what happens on successful data submission
+          http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              // Typical action to be performed when the document is ready:
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              document.getElementById("span").innerHTML = r["message"];
+            } else if (this.readyState == 4 && this.status == 401) {
+              alert("Token expirired!,Kindly login.");
+            }
+          };
+
+          // Set up our request
+          http.open("GET", "http://127.0.0.1:5000/home", true);
+
+          // set access token in header
+          http.setRequestHeader("Authorization", "Bearer " + accessToken);
+          // The data sent is what the user provided in the form
+          http.send(null);
+        }
+        function logOut() {
+          var http = new XMLHttpRequest();
+
+          // Bind the FormData object and the form element
+          //   const formData = new FormData(form);
+
+          var accessToken = localStorage.getItem("accessToken");
+
+          // Define what happens on successful data submission
+          http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              // Typical action to be performed when the document is ready:
+              var proceed = confirm("Are you sure you want to logout?");
+              if (proceed) {
+                var response = http.responseText;
+                var r = JSON.parse(response);
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+
+                window.location.replace("login.html");
+                //proceed
+              }
+            } else if (this.readyState == 4 && this.status == 401) {
+              alert("Token expirired!,Kindly login.");
+              window.location.replace("login.html");
+            }
+          };
+
+          // Set up our request
+          http.open("POST", "http://127.0.0.1:5000/logout", true);
+
+          // set access token in header
+          http.setRequestHeader("Authorization", "Bearer " + accessToken);
+          // The data sent is what the user provided in the form
+          http.send(null);
+        }
+
+        event.preventDefault();
+        sendData();
+
+        var image = document.getElementById("image");
+
+        image.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          logOut();
+        });
+      });
+      //   });
+    </script>
+  </body>
+</html>
