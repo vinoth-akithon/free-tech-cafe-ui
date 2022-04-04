@@ -59,44 +59,48 @@
           http.send(null);
         }
         function logOut() {
-          var http = new XMLHttpRequest();
+          var proceed = confirm("Are you sure you want to logout?");
+          console.log(proceed);
+          if (proceed) {
+            var http = new XMLHttpRequest();
 
-          // Bind the FormData object and the form element
-          //   const formData = new FormData(form);
+            // Bind the FormData object and the form element
+            //   const formData = new FormData(form);
 
-          var accessToken = localStorage.getItem("accessToken");
+            var accessToken = localStorage.getItem("accessToken");
 
-          // Define what happens on successful data submission
-          http.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              // Typical action to be performed when the document is ready:
-              var proceed = confirm("Are you sure you want to logout?");
-              if (proceed) {
+            // Define what happens on successful data submission
+            http.onreadystatechange = function () {
+              if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                // var proceed = confirm("Are you sure you want to logout?");
+                // console.log(proceed);
+                // if (proceed) {
                 var response = http.responseText;
                 var r = JSON.parse(response);
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
-
+                alert(r["message"]);
                 window.location.replace("login.html");
                 //proceed
+              } else if (this.readyState == 4 && this.status == 401) {
+                alert("Token expirired!,Kindly login.");
+                window.location.replace("login.html");
               }
-            } else if (this.readyState == 4 && this.status == 401) {
-              alert("Token expirired!,Kindly login.");
-              window.location.replace("login.html");
-            }
-          };
+            };
 
-          // Set up our request
-          http.open(
-            "DELETE",
-            "https://veeramvinoth.pythonanywhere.com/logout",
-            true
-          );
+            // Set up our request
+            http.open(
+              "DELETE",
+              "https://veeramvinoth.pythonanywhere.com/logout",
+              true
+            );
 
-          // set access token in header
-          http.setRequestHeader("Authorization", "Bearer " + accessToken);
-          // The data sent is what the user provided in the form
-          http.send(null);
+            // set access token in header
+            http.setRequestHeader("Authorization", "Bearer " + accessToken);
+            // The data sent is what the user provided in the form
+            http.send(null);
+          }
         }
 
         event.preventDefault();
