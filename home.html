@@ -41,6 +41,8 @@
               document.getElementById("span").innerHTML = r["message"];
             } else if (this.readyState == 4 && this.status == 401) {
               alert("Token expirired!,Kindly login.");
+            } else if (this.readyState == 4 && this.status == 422) {
+              window.location.replace("login.html");
             }
           };
 
