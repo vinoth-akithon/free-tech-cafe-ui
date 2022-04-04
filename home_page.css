@@ -25,7 +25,8 @@ body{
     font-size: 5vh;
     color: rgb(211, 31, 31);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    
+    text-shadow: 1px 2px 2px rgb(249, 15, 237),
+    0 0 15px rgb(126, 228, 10);
 
 }
 
