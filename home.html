@@ -45,7 +45,11 @@
           };
 
           // Set up our request
-          http.open("GET", "http://veeramvinoth.pythonanywhere.com/home", true);
+          http.open(
+            "GET",
+            "https://veeramvinoth.pythonanywhere.com/home",
+            true
+          );
 
           // set access token in header
           http.setRequestHeader("Authorization", "Bearer " + accessToken);
@@ -83,7 +87,7 @@
           // Set up our request
           http.open(
             "POST",
-            "http://veeramvinoth.pythonanywhere.com/logout",
+            "https://veeramvinoth.pythonanywhere.com/logout",
             true
           );
 
