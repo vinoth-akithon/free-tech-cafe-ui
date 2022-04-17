@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/Article">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Free Tech Cafe</title>
     <link rel="stylesheet" href="login_style.css" />
+    <!-- BEGIN Pre-requisites -->
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"> -->
+  </script>
+  <!-- <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer> -->
+    
+  </script>
+  <!-- <script>
+    function start() {
+      console.log("first")
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: '891120027637-u7c4k86n42oumljpf8l3uj6dlp5e9pga.apps.googleusercontent.com',
+          // redirect_uri:"http://127.0.0.1:5000"
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+        });
+        console.log(auth2)
+      });
+    }
+        console.log("@@@@",auth2)
+
+  </script> -->
+
+
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
   </head>
   <body>
@@ -34,6 +58,7 @@
             autocomplete="off"
           />
         </div>
+        <br>
         <hr />
         <div class="submit">
           <input id="form-submit" type="submit" value="Login" />
@@ -42,6 +67,34 @@
       <div class="redirect-link">
         <p>Haven't Register?<a href="index.html"> Register Here</a></p>
       </div>
+      <div
+        class="google-login"
+        style="
+          width: 80%;
+          background-color: rgb(210, 229, 229);
+          margin: auto;
+          display: flex;
+          margin-top: 5%;
+        "
+      >
+        <div style="width: 20%; border-right: 2px solid red">
+          <img
+            style="width: 100%; height: 100%"
+            src="Google-Icon-PNG-768x768.jpg"
+            alt="google_image"
+          />
+        </div>
+        <div style="width: 80%; text-align: center">
+          <p
+            style="font-size: medium; font-family: Arial, Helvetica, sans-serif"
+          >
+            <a id="google" style="text-decoration: none" href="#">Continue with Google</a>
+          </p>
+          <!-- <a href="#">Continue with Google</a> -->
+        </div>
+        <!-- <p>Already Registered?<a href="login.html"> Login Here</a></p> -->
+      </div>
+    </div>
     </div>
 
     <script>
@@ -58,8 +111,7 @@
               // Typical action to be performed when the document is ready:
               var response = http.responseText;
               var r = JSON.parse(response);
-              localStorage.setItem("accessToken", r["access_token"]);
-              localStorage.setItem("refreshToken", r["refresh_token"]);
+              localStorage.setItem("access_token", r["access_token"]);
               window.location.replace("home.html");
             } else if (this.readyState == 4 && this.status == 400) {
               var response = http.responseText;
@@ -71,6 +123,7 @@
           // Set up our request
           http.open(
             "POST",
+            //"http://127.0.0.1:5000/login",
             "https://veeramvinoth.pythonanywhere.com/login",
             true
           );
@@ -78,6 +131,40 @@
           // The data sent is what the user provided in the form
           http.send(formData);
         }
+        function firstSend() {
+          console.log("success")
+          const http = new XMLHttpRequest();
+          http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              // Typical action to be performed when the document is ready:
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              console.log("@@@@@@@@@@@@@@@@@@@@",r["url"])
+              window.location.href = r["url"]
+              
+              // alert("I am working");
+            } else if (this.readyState == 4 && this.status == 400) {
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              alert(r["message"]);
+              // alert("I am bad");
+            }
+          };
+
+          // Set up our request
+          http.open(
+            "GET",
+            // "http://127.0.0.1:5000/login",
+            "https://veeramvinoth.pythonanywhere.com/register",
+            true
+          );
+          // http.setRequestHeader("Content-Type", "application/json");
+          http.setRequestHeader('Access-Control-Allow-Origin', '*');
+          http.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+
+          http.send();
+        }
+        
 
         // Access the form element...
         const form = document.getElementById("loginForm");
@@ -88,7 +175,57 @@
 
           sendData();
         });
+
+  //        $('#google').click(function() {
+  //   console.log("google")
+  //   // signInCallback defined in step 6.
+  //   auth2.signIn().then(signInCallback);
+  // });
+        const google = document.getElementById("google");
+        console.log("pass1");
+        google.addEventListener("click", function (event) {
+          console.log("pass2")
+          event.preventDefault();
+
+          // auth2.grantOfflineAccess().then(signInCallback);
+          firstSend();
+        });
       });
     </script>
+    <script>
+ 
+</script>
+<!-- <script>
+function signInCallback(authResult) {
+  console.log(authResult)
+  console.log(authResult['code'])
+  if (authResult['code']) {
+
+    // Hide the sign-in button now that the user is authorized, for example:
+    $('#signinButton').attr('style', 'display: none');
+
+    // Send the code to the server
+    $.ajax({
+      type: 'GET',
+      url: 'http://localhost:5000/temp',
+      // Always include an `X-Requested-With` header in every AJAX request,
+      // to protect against CSRF attacks.
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      contentType: 'application/octet-stream; charset=utf-8',
+      success: function(result) {
+        // Handle or verify the server response.
+      },
+      processData: false,
+      data: authResult['code']
+    });
+  } else {
+    // There was an error.
+  }
+}
+</script> -->
+
+
   </body>
 </html>
