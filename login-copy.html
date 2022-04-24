@@ -1,52 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/Article">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Free Tech Cafe</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-    <style>
-      .alert {
-        padding: 20px;
-        background-color: #f44336;
-        color: white;
-        opacity: 1;
-        transition: opacity 0.6s;
-        margin-bottom: 15px;
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" href="login_style-copy.css" />
+ 
   </head>
   <body>
-    <div class="alert" id="noti"></div>
     <div class="registration-box">
-      <div class="form-title">Registration Form</div>
-      <form class="form" id="registerForm">
+      <div class="registration-box">
+      <div class="form-title">Login Form</div>
+      <form class="form" id="loginForm">
         <div class="input-name">
-          <label for="name">Name :</label><br />
-          <input
-            name="name"
-            id="name"
-            type="text"
-            placeholder="vinoth kumar"
-            required
-            autocomplete="off"
-          />
-        </div>
-        <div class="input-email">
           <label for="email">Email :</label><br />
           <input
-            name="email"
+          name="email"
             id="email"
             type="email"
             placeholder="xxx@gmail.com"
             required
             autocomplete="off"
+            
           />
         </div>
-        <div class="input-password">
+        <div class="input-email">
           <label for="password">Password :</label><br />
           <input
             name="password"
@@ -57,13 +36,25 @@
             autocomplete="off"
           />
         </div>
+        <div class="input-password">
+          <label for="otp">OTP :</label><br />
+          <input
+            name="otp"
+            id="name"
+            type="text"
+            placeholder="123456"
+            required
+            autocomplete="off"
+            
+          />
+        </div>
         <hr />
         <div class="submit">
-          <input id="form-submit" type="submit" value="Register" />
+          <input id="form-submit" type="submit" value="Login" />
         </div>
       </form>
       <div class="redirect-link">
-        <p>Already Registered?<a href="login-copy.html"> Login Here</a></p>
+        <p>Haven't Register?<a href="index.html"> Register Here</a></p>
       </div>
       <div
         class="google-login"
@@ -110,17 +101,14 @@
               // Typical action to be performed when the document is ready:
               var response = http.responseText;
               var r = JSON.parse(response);
-              // localStorage.setItem("access_token", r["access_token"]);
-              // console.log(r);
-              console.log(r["qrcode_uri"]);
-              window.location.replace(
-                "google_authendicator.html?secret_key=" +
-                  r["google_secret"] +
-                  "&qrcode_uri=" +
-                  r["qrcode_uri"]
-              );
-              // window.location.replace("home.html");
+              localStorage.setItem("access_token", r["access_token"]);
+              window.location.replace("home.html");
             } else if (this.readyState == 4 && this.status == 400) {
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              alert(r["message"]);
+            }
+            else if (this.readyState == 4 && this.status == 401) {
               var response = http.responseText;
               var r = JSON.parse(response);
               alert(r["message"]);
@@ -130,8 +118,8 @@
           // Set up our request
           http.open(
             "POST",
-            // "http://127.0.0.1:5000/register",
-            "https://veeramvinoth.pythonanywhere.com/register",
+            // "http://127.0.0.1:5000/login",
+            "https://veeramvinoth.pythonanywhere.com/login",
             true
           );
 
@@ -139,17 +127,21 @@
           http.send(formData);
         }
         function firstSend() {
-          console.log("success");
           const http = new XMLHttpRequest();
-
-          // Define what happens on successful data submission
           http.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
               // Typical action to be performed when the document is ready:
               var response = http.responseText;
               var r = JSON.parse(response);
               window.location.href = r["url"];
+              
+              // alert("I am working");
             } else if (this.readyState == 4 && this.status == 400) {
+              var response = http.responseText;
+              var r = JSON.parse(response);
+              alert(r["message"]);
+              // alert("I am bad");
+            } else if (this.readyState == 4 && this.status == 401) {
               var response = http.responseText;
               var r = JSON.parse(response);
               alert(r["message"]);
@@ -161,18 +153,19 @@
           http.open(
             "GET",
             // "http://127.0.0.1:5000/login",
-            "https://veeramvinoth.pythonanywhere.com/register",
+            "https://veeramvinoth.pythonanywhere.com/login",
             true
           );
           // http.setRequestHeader("Content-Type", "application/json");
-          http.setRequestHeader("Access-Control-Allow-Origin", "*");
-          http.setRequestHeader("Access-Control-Allow-Credentials", "true");
+          http.setRequestHeader('Access-Control-Allow-Origin', '*');
+          http.setRequestHeader('Access-Control-Allow-Credentials', 'true');
 
           http.send();
         }
+        
 
         // Access the form element...
-        const form = document.getElementById("registerForm");
+        const form = document.getElementById("loginForm");
 
         // ...and take over its submit event.
         form.addEventListener("submit", function (event) {
@@ -180,8 +173,10 @@
 
           sendData();
         });
-        //
+
       });
     </script>
+
+
   </body>
 </html>

@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="header">
-      <p>Free Tech Cafe</p>
+      <p>Bon AI Solution</p>
       <!-- <div> -->
       <a id="image" title="logout" href="#"
         ><img src="logout.png" alt="logout"
@@ -49,11 +49,11 @@
               document.getElementById("span").innerHTML = r["message"];
             } else if (this.readyState == 4 && this.status == 401) {
               alert("Token has expired!,Kindly login.");
-              window.location.replace("login.html");
+              window.location.replace("login-copy.html");
             } else if (this.readyState == 4 && this.status == 422) {
-              window.location.replace("login.html");
+              window.location.replace("login-copy.html");
             } else if (this.readyState == 4 && this.status == 400) {
-              window.location.replace("login.html");
+              window.location.replace("login-copy.html");
             }
           };
 
@@ -86,11 +86,11 @@
                 localStorage.removeItem("access_oken");
                 // localStorage.removeItem("refreshToken");
                 alert(r["message"]);
-                window.location.replace("login.html");
+                window.location.replace("login-copy.html");
                 //proceed
               } else if (this.readyState == 4 && this.status == 401) {
                 alert("Token expirired!,Kindly login.");
-                window.location.replace("login.html");
+                window.location.replace("login-copy.html");
               }
             };
 
